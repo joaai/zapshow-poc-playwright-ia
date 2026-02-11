@@ -1,32 +1,52 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async () => {
-  await fetch("http://localhost:3001/test/reset", { method: "POST" });
+  const apiBase = process.env.E2E_API_URL || "http://localhost:3001";
+  await fetch(`${apiBase}/test/reset`, { method: "POST" });
 });
 
 test("login works", async ({ page }) => {
   await page.goto("/");
+
   await page.getByLabel("Email").fill("qa@empresa.com");
-  await page.getByLabel("Password").fill("123456");
-  await page.getByRole("button", { name: /login/i }).click();
-  await expect(page.getByRole("heading", { name: /events/i })).toBeVisible();
+  await page.getByLabel("Senha").fill("123456");
+  await page.getByRole("button", { name: "Entrar" }).click();
+
+  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
 });
 
 test("create event uses POST /events and appears in list", async ({ page }) => {
   await page.goto("/");
+
   // login
   await page.getByLabel("Email").fill("qa@empresa.com");
-  await page.getByLabel("Password").fill("123456");
-  await page.getByRole("button", { name: /login/i }).click();
+  await page.getByLabel("Senha").fill("123456");
+  await page.getByRole("button", { name: "Entrar" }).click();
+  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
 
-  // create event and wait for POST /events returning 201
+  // go to create event
+  await page.getByRole("button", { name: "Criar evento" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Criar evento" }),
+  ).toBeVisible();
+
+  const title = `My event ${Date.now()}`;
+
+  // wait for POST /events returning 201
   const wait = page.waitForResponse(
-    (resp) => resp.url().includes("/events") && resp.status() === 201,
+    (resp) =>
+      resp.url().includes("/events") &&
+      resp.request().method() === "POST" &&
+      resp.status() === 201,
   );
-  await page.getByLabel("Title").fill("My event");
-  await page.getByLabel("Description").fill("desc");
-  await page.getByRole("button", { name: /create event/i }).click();
+
+  await page.getByLabel("Título do evento").fill(title);
+  await page.getByLabel("Data").fill("2026-02-15");
+  await page.getByLabel("Preço").fill("50");
+  await page.getByRole("button", { name: "Salvar" }).click();
+
   await wait;
 
-  await expect(page.getByText("My event")).toBeVisible();
+  await expect(page.getByText("Evento criado com sucesso")).toBeVisible();
+  await expect(page.getByText(title)).toBeVisible();
 });
