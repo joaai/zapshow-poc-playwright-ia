@@ -31,8 +31,7 @@ jobs:
         working-directory: web
         run: |
           npm cache clean --force
-          npm config set optional true
-          npm install
+          npm install --include=optional
 
       - name: Build Web
         working-directory: web
