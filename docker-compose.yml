@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  api:
+    build: ./api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+
+  web:
+    build: ./web
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE=http://host.docker.internal:3001
