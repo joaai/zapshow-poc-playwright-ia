@@ -1,6 +1,7 @@
 name: e2e
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -15,6 +16,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            api/package-lock.json
+            web/package-lock.json
 
       # API
       - name: Install API deps
@@ -26,12 +31,13 @@ jobs:
         run: |
           nohup npm run dev > api.log 2>&1 &
 
-      # WEB (inclui Playwright porque ele está no web/)
-      - name: Install Web deps
+      # WEB
+      - name: Install Web deps (rebuild lock for Linux)
         working-directory: web
         run: |
-          npm cache clean --force
-          npm install --include=optional
+          rm -rf node_modules package-lock.json
+          npm install --include=optional --no-audit --no-fund
+
 
       - name: Build Web
         working-directory: web
