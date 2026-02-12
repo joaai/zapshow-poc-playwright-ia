@@ -34,7 +34,7 @@ jobs:
       # WEB
       - name: Install Web deps
         working-directory: web
-        run: npm ci
+        run: npm ci --include=optional --no-audit --no-fund
 
       - name: Build Web
         working-directory: web
