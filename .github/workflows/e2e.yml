@@ -32,9 +32,12 @@ jobs:
           nohup npm run dev > api.log 2>&1 &
 
       # WEB
-      - name: Install Web deps
+      - name: Install Web deps (rebuild lock for Linux)
         working-directory: web
-        run: npm ci --include=optional --no-audit --no-fund
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install --include=optional --no-audit --no-fund
+
 
       - name: Build Web
         working-directory: web
