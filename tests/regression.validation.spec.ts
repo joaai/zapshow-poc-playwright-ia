@@ -24,7 +24,7 @@ test("validation: title required @regression", async ({ page }) => {
   await page.getByLabel("Description").fill("Test");
   await page.locator('form[aria-label="create-event-form"] button[type="submit"]').click();
   // Expect toast for missing title (toast has role=alert)
-  await expect(page.locator('div[role="alert"] >> text=Preencha o título')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('div[role="alert"] >> text=Preencha o título')).toBeVisible({ timeout: 1500 });
 });
 
 test("validation: create event fields required @regression", async ({ page }) => {
@@ -32,12 +32,12 @@ test("validation: create event fields required @regression", async ({ page }) =>
 
   // both empty
   await page.locator('form[aria-label="create-event-form"] button[type="submit"]').click();
-  await expect(page.locator('div[role="alert"] >> text=Preencha título e descrição')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('div[role="alert"] >> text=Preencha título e descrição')).toBeVisible({ timeout: 1500 });
 
   // title only
   await page.getByLabel("Title").fill("Evento teste");
   await page.locator('form[aria-label="create-event-form"] button[type="submit"]').click();
-  await expect(page.locator('div[role="alert"] >> text=Preencha a descrição')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('div[role="alert"] >> text=Preencha a descrição')).toBeVisible({ timeout: 1500 });
 });
 
 test("validation: login fields required @regression", async ({ page }) => {
@@ -45,18 +45,18 @@ test("validation: login fields required @regression", async ({ page }) => {
 
   // both empty
   await page.locator('button[type="submit"]').first().click();
-  await expect(page.locator('[data-testid="toast-login-empty"]')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('[data-testid="toast-login-empty"]')).toBeVisible({ timeout: 1500 });
 
   // email only
   await page.getByLabel("Email").fill("qa@empresa.com");
   await page.locator('button[type="submit"]').first().click();
-  await expect(page.locator('[data-testid="toast-login-password"]')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('[data-testid="toast-login-password"]')).toBeVisible({ timeout: 1500 });
 
   // password only
   await page.getByLabel("Email").fill("");
   await page.locator('input[type="password"]').first().fill("123456");
   await page.locator('button[type="submit"]').first().click();
-  await expect(page.locator('[data-testid="toast-login-email"]')).toBeVisible({ timeout: 8000 });
+  await expect(page.locator('[data-testid="toast-login-email"]')).toBeVisible({ timeout: 1500 });
 });
 
 test("validation: invalid price @regression", async ({ page }) => {

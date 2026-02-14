@@ -1,10 +1,18 @@
+/// <reference types="node" />
+
 import { defineConfig } from "@playwright/test";
 
-export default defineConfig({
-  testDir: "./tests",
-  timeout: 30_000,
+import path from 'path';
 
-  reporter: [["list"], ["html", { open: "never" }]],
+export default defineConfig({
+  testDir: path.join(__dirname, "tests"),
+
+  outputDir: path.join(__dirname, "tests", "test-results"),
+
+  reporter: [
+    ["html", { outputFolder: path.join(__dirname, "tests", "playwright-report"), open: "never" }],
+    ["list"],
+  ],
 
   use: {
     baseURL: process.env.E2E_BASE_URL || "http://localhost:5173",
@@ -17,15 +25,13 @@ export default defineConfig({
     ? undefined
     : [
         {
-          command: "npm run dev",
-          cwd: "../api",
+          command: "npm run dev:api",
           url: "http://127.0.0.1:3001/events",
           reuseExistingServer: true,
           timeout: 60_000,
         },
         {
-          command: "npm run dev -- --port 5173",
-          cwd: ".",
+          command: "npm run dev:web",
           url: "http://127.0.0.1:5173",
           reuseExistingServer: true,
           timeout: 60_000,
