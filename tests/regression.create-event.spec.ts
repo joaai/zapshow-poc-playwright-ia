@@ -11,9 +11,7 @@ test("create event and show in list @regression", async ({ page }) => {
   await login(page);
 
   // Verify we're on the dashboard
-  await expect(
-    page.getByRole("heading", { name: "Events" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Events" })).toBeVisible();
 
   const title = `Evento ${Date.now()}`;
 
@@ -28,9 +26,11 @@ test("create event and show in list @regression", async ({ page }) => {
 
   await page.getByRole("button", { name: "Create Event" }).click();
   await page.getByLabel("Title").fill(title);
-  await page.getByRole('textbox', { name: 'Date' }).fill(dateISO);
-  await page.getByRole('textbox', { name: 'Description' }).fill("Test event description");
-  await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByRole("textbox", { name: "Date" }).fill(dateISO);
+  await page
+    .getByRole("textbox", { name: "Description" })
+    .fill("Test event description");
+  await page.getByRole("button", { name: "Save" }).click();
 
   await wait;
 

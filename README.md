@@ -50,22 +50,24 @@ zapshow-poc-playwright-ia/
 └── README.md
 ```
 
-
 ---
 
 # 🛠 Tecnologias
 
 ### Front-end
+
 - React
 - Vite
 - Material UI
 
 ### Back-end (Mock)
+
 - Node.js
 - Express
 - TypeScript
 
 ### Testes
+
 - Playwright
 - TypeScript
 
@@ -91,27 +93,28 @@ npm run dev
 ```
 
 **Saídas esperadas:**
+
 - 🔵 API rodando em http://localhost:3001
 - 🟢 Web rodando em http://localhost:5173
 
 ### Scripts Principais
 
-| Script | Descrição |
-| --- | --- |
-| `npm run dev` | Inicia API + Web em paralelo |
-| `npm run dev:api` | Inicia apenas a API |
-| `npm run dev:web` | Inicia apenas o Web |
-| `npx playwright test` | Executa todos os testes E2E |
+| Script                     | Descrição                        |
+| -------------------------- | -------------------------------- |
+| `npm run dev`              | Inicia API + Web em paralelo     |
+| `npm run dev:api`          | Inicia apenas a API              |
+| `npm run dev:web`          | Inicia apenas o Web              |
+| `npx playwright test`      | Executa todos os testes E2E      |
 | `npx playwright test --ui` | Abre Playwright UI com os testes |
 
 ### API Endpoints
 
-| Método | Endpoint    | Descrição |
-| --- | --- | --- |
+| Método | Endpoint      | Descrição                                       |
+| ------ | ------------- | ----------------------------------------------- |
 | POST   | `/login`      | Login (email: qa@empresa.com, password: 123456) |
-| GET    | `/events`     | Lista eventos |
-| POST   | `/events`     | Cria evento (retorna 201) |
-| POST   | `/test/reset` | Reseta dados (usado nos testes) |
+| GET    | `/events`     | Lista eventos                                   |
+| POST   | `/events`     | Cria evento (retorna 201)                       |
+| POST   | `/test/reset` | Reseta dados (usado nos testes)                 |
 
 ---
 
@@ -120,9 +123,11 @@ npm run dev
 Os testes estão organizados em dois grupos:
 
 ### Smoke Tests
+
 - **`smoke.login.spec.ts`** — Validação básica do fluxo de login
 
-### Regression Tests  
+### Regression Tests
+
 - **`regression.create-event.spec.ts`** — Criação e validação de eventos
 - **`regression.validation.spec.ts`** — Validações gerais da aplicação
 
@@ -137,4 +142,3 @@ npx playwright test --ui
 ```
 
 ---
-
